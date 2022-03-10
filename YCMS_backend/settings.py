@@ -92,7 +92,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "YCMS_backend.application"
+WSGI_APPLICATION = "YCMS_backend.wsgi.application"
 
 
 # Database
