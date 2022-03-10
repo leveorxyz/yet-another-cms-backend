@@ -1,5 +1,5 @@
 """
-ASGI config for Django_rest_framework_template project.
+ASGI config for YCMS_backend project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -12,7 +12,7 @@ import os
 from django.core.asgi import get_asgi_application
 
 os.environ.setdefault(
-    "DJANGO_SETTINGS_MODULE", "Django_rest_framework_template.settings"
+    "DJANGO_SETTINGS_MODULE", "YCMS_backend.settings"
 )
 
 application = get_asgi_application()

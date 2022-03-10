@@ -1,4 +1,4 @@
-"""Django_rest_framework_template URL Configuration
+"""YCMS_backend URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -56,4 +56,4 @@ urlpatterns = [
 urlpatterns += staticfiles_urlpatterns()
 
 handler404 = Custom404.as_view()
-handler500 = "Django_rest_framework_template.views.custom_500_handler"
+handler500 = "YCMS_backend.views.custom_500_handler"

@@ -1,6 +1,6 @@
-# Django-rest-framework-template
+# YCMS-backend
 
-The is a Django rest framework template.
+Backend for YCMS.
 
 ## Project Directory Structure
 
@@ -27,7 +27,7 @@ The is a Django rest framework template.
 │   ├── tests.py
 │   ├── utils.py
 │   └── views.py
-├── Django_rest_framework_template
+├── YCMS_backend
 │   ├── asgi.py
 │   ├── __init__.py
 │   ├── settings.py
