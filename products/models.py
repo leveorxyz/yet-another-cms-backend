@@ -22,3 +22,8 @@ class Product(CoreModel):
     )
     description = models.CharField(max_length=500, null=True, blank=True, default=None)
 
+class ProductPhoto(CoreModel):
+    product = models.ForeignKey(
+        Product, related_name="images", on_delete=models.CASCADE
+    )
+    url = models.CharField(max_length=100, default=None, blank=True, null=True)
