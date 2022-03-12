@@ -9,8 +9,35 @@ from core.utils import *
 #Category Class : Inherits from CoreModel 
 class Category(CoreModel):
     title = models.CharField(max_length=100,default="",blank=False,null=False) #Title of the category
-    thumbnail = models.CharField(max_length=255, default=None, blank=True, null=True) #Thumbnail of the category
+    _thumbnail = models.ImageField(
+        upload_to=CATEGORY_THUMBNAIL_DIRECTORY,
+        blank = True,
+        null = True,
+    )  #Thumbnail of the category
     image_alt = models.CharField(max_length=255, default=None, null=True, blank=True) #Alternative text incase the thumbnail fails
+
+    @property
+    def thumbnail(self) -> str:
+        return  settings.MEDIA_URL + self._thumbnail.name
+    
+    @thumbnail.setter
+    def thumbnail(self, value: str):
+        if self._thumbnail.name:
+            del self.thumbnail
+        file_name, file = generate_file_and_name(value, self.id)
+        self._thumbnail.save(file_name, file, save=True)
+        self.save()
+    
+    @thumbnail.deleter
+    def thumbnail(self):
+        if self._thumbnail.name:
+            self._thumbnail.delete(save=True)
+    
+    def delete(self, *args, **kwargs):
+        del self.thumbnail
+        return super(Category, self).delete(*args, **kwargs)
+
+
 
 #Tag Class : Inherits from CoreModel
 class Tag(CoreModel):
@@ -38,7 +65,7 @@ class Product(CoreModel):
 
     @property
     def thumbnail(self) -> str:
-        return  settings.MEDIA_URL + self.thumbnail.name
+        return  settings.MEDIA_URL + self._thumbnail.name
     
     @thumbnail.setter
     def thumbnail(self, value: str):
