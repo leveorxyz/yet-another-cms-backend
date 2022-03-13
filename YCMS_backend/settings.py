@@ -203,7 +203,7 @@ REST_FRAMEWORK = {
         "core.classes.CustomTokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.AllowAny",
     ],
 }
 

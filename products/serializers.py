@@ -38,6 +38,7 @@ class ProductSerializer(ModelSerializer):
     thumbnail = serializers.CharField()
     product_photos = serializers.SerializerMethodField()
 
+
     def get_product_photos(self, product):
         return ProductDetailPhoto.objects.filter(product=product).values_list('url', flat=True)
     class Meta:
