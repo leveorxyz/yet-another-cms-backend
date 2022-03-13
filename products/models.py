@@ -67,6 +67,7 @@ class Product(CoreModel):
     def thumbnail(self) -> str:
         return  settings.MEDIA_URL + self._thumbnail.name
     
+    #Setter for thumbnail property
     @thumbnail.setter
     def thumbnail(self, value: str):
         if self._thumbnail.name:
@@ -74,12 +75,13 @@ class Product(CoreModel):
         file_name, file = generate_file_and_name(value, self.id)
         self._thumbnail.save(file_name, file, save=True)
         self.save()
-    
+    #Deleter for thumbnail property
     @thumbnail.deleter
     def thumbnail(self):
         if self._thumbnail.name:
             self._thumbnail.delete(save=True)
     
+    #Deletes thumbnail field
     def delete(self, *args, **kwargs):
         del self.thumbnail
         return super(Product, self).delete(*args, **kwargs)
