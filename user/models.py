@@ -31,7 +31,9 @@ class PasswordResetWhitelist(CoreModel):
 class User(AbstractUser, CoreModel):
     class UserType(models.TextChoices):
         ADMIN = "ADMIN", _("admin")
+        MODERATOR = "MODERATOR",_("moderator")
         NORMAL = "NORMAL", _("normal")
+       
 
     username = models.CharField(
         _("username"),
@@ -57,10 +59,7 @@ class User(AbstractUser, CoreModel):
     is_verified = models.BooleanField(
         _("is verified"), default=False, blank=True, null=True
     )
-    street = models.CharField(_("street"), max_length=100, blank=True, null=True)
-    state = models.CharField(_("state"), max_length=50, blank=True, null=True)
-    city = models.CharField(_("city"), max_length=50, blank=True, null=True)
-    zip_code = models.CharField(_("zip code"), max_length=15, blank=True, null=True)
+    default_address = models.CharField(_("default_address"), max_length=255, blank=True, null=True)
     contact_no = models.CharField(_("contact no"), max_length=20, blank=True, null=True)
     _profile_photo = models.ImageField(
         upload_to=PROFILE_PHOTO_DIRECTORY,
@@ -158,7 +157,7 @@ class User(AbstractUser, CoreModel):
         reset_token = ExpiringActivationTokenGenerator().generate_token(text=self.email)
 
         try:
-            _ = PasswordResetWhitelist.objects.create(
+            __ = PasswordResetWhitelist.objects.create(
                 email=self.email, token=reset_token.decode("utf-8")
             )
         except IntegrityError:
