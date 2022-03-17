@@ -20,24 +20,23 @@ class UserSerializer(ModelSerializer):
 
 
 class UserLoginSerializer(ModelSerializer):
-    username = CharField(source="get_username", read_only=True)
 
     class Meta:
         model = User
         fields = list(
             set(field.name for field in model._meta.fields) - set(["_profile_photo"])
-        ) + ["token", "profile_photo", "username"]
+        ) + ["token", "profile_photo"]
         extra_kwargs = {field: {"read_only": True} for field in fields}
         extra_kwargs["password"] = {"write_only": True}
-        del extra_kwargs["email"]
+        del extra_kwargs["username"]
 
 
 class UserSignUpSerializer(ModelSerializer):
     profile_photo = CharField(required=False)
 
     def validate(self, attrs):
-        if User.objects.filter(email=attrs["email"]).exists():
-            raise ValidationError("User with this mail already exists.")
+        if User.objects.filter(username=attrs["username"]).exists():
+            raise ValidationError("User with this username already exists.")
         return super().validate(attrs)
 
     def create(self, validated_data):
@@ -59,45 +58,45 @@ class UserSignUpSerializer(ModelSerializer):
         extra_kwargs = {
             "password": {"write_only": True, "required": True},
             "token": {"read_only": True},
-            "email": {"required": True},
+            "username": {"required": True},
         }
 
+# to remove it from seriqalizer and views
+# class VerifyEmailSerializer(Serializer):
+#     token = CharField(required=True, write_only=True)
 
-class VerifyEmailSerializer(Serializer):
-    token = CharField(required=True, write_only=True)
+#     def validate(self, data):
+#         try:
+#             email = ExpiringActivationTokenGenerator().get_token_value(data["token"])
+#         except InvalidToken:
+#             raise ValidationError("Invalid token")
 
-    def validate(self, data):
-        try:
-            email = ExpiringActivationTokenGenerator().get_token_value(data["token"])
-        except InvalidToken:
-            raise ValidationError("Invalid token")
+#         try:
+#             user = User.objects.get(email=email)
+#             data["user"] = user
+#         except User.DoesNotExist:
+#             raise ValidationError("User does not exist")
 
-        try:
-            user = User.objects.get(email=email)
-            data["user"] = user
-        except User.DoesNotExist:
-            raise ValidationError("User does not exist")
+#         user.is_active = True
+#         user.is_verified = True
+#         user.save()
 
-        user.is_active = True
-        user.is_verified = True
-        user.save()
-
-        return data
-
-
-class PasswordResetEmailSerializer(Serializer):
-    email = EmailField(required=True)
-
-    def validate(self, data):
-        try:
-            user = User.objects.get(email=data["email"])
-        except User.DoesNotExist:
-            raise ValidationError("User does not exist")
-
-        data["user"] = user
-        return data
+#         return data
 
 
-class PasswordResetSerializer(Serializer):
-    password = CharField(required=True)
-    token = CharField(required=True)
+# class PasswordResetEmailSerializer(Serializer):
+#     email = EmailField(required=True)
+
+#     def validate(self, data):
+#         try:
+#             user = User.objects.get(email=data["email"])
+#         except User.DoesNotExist:
+#             raise ValidationError("User does not exist")
+
+#         data["user"] = user
+#         return data
+
+
+# class PasswordResetSerializer(Serializer):
+#     password = CharField(required=True)
+#     token = CharField(required=True)
