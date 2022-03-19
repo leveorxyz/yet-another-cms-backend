@@ -55,7 +55,7 @@ class Product(CoreModel):
     image_alt = models.CharField(max_length=100, default=None, null=True, blank=True) #Alternative text incase the thumbnail fails
     is_trending = models.BooleanField(default=False, blank=True) #Is the product trending
     stock = models.PositiveIntegerField(default=0, blank=True) #Quantity of the product in stock
-    tag = models.ManyToManyField(Tag,on_delete = models.SET_NULL, blank=True,null=True,related_name="tags") #related tags of each product
+    tag = models.ManyToManyField(Tag, blank=True,null=True,related_name="tags") #related tags of each product
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True, default=None
     ) #related category of each product

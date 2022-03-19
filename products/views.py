@@ -2,7 +2,6 @@ from django.shortcuts import render
 from rest_framework.permissions import AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import ProductFilter
-from core.permissions import ModeratorOrHigher
 from core.views import CustomListAPIView,CustomRetrieveUpdateDestroyAPIView,CustomCreateAPIView
 from .models import Category, Tag, Product
 from .serializers import CategorySerializer, TagSerializer, ProductSerializer
@@ -17,14 +16,14 @@ class CategoryCreateView(CustomCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-class CategoryRetrieveUpdateDestroyView(CustomRetrieveUpdateDestroyAPIView):
+class CategoryEditView(CustomRetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 class ProductListView(CustomListAPIView):
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_class = [ProductFilter]
+    filterset_class = [ProductFilter]
     permission_classes = [
         AllowAny,
     ]
