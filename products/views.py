@@ -18,4 +18,6 @@ class CategoryRetrieveUpdateDestroyView(CustomRetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-
+class ProductListView(CustomListAPIView):
+    serializer_class = ProductSerializer
+    
