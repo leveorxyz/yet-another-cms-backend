@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     # Project Apps
     "core",
     "user",
+    "products",
 ]
 
 MIDDLEWARE = [
@@ -159,7 +160,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static"
 
-MEDIA_URL = "/media/"
+MEDIA_URL = os.getenv("MEDIA_URL", "/media/")
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
@@ -202,7 +203,7 @@ REST_FRAMEWORK = {
         "core.classes.CustomTokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.AllowAny",
     ],
 }
 

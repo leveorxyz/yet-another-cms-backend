@@ -46,6 +46,7 @@ urlpatterns = [
     path("user/", include("user.urls")),
     path("docs/", include_docs_urls(title="Template API")),
     path("__debug__/", include(debug_toolbar.urls)),
+    path("product/",include("products.urls")),
     url(
         r"^media/(?P<path>.*)$",
         serve,
