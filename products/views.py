@@ -23,7 +23,7 @@ class CategoryEditView(CustomRetrieveUpdateDestroyAPIView):
 class ProductListView(CustomListAPIView):
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_class = [ProductFilter]
+    filterset_class = ProductFilter
     permission_classes = [
         AllowAny,
     ]
